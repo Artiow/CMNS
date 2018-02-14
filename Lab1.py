@@ -44,8 +44,9 @@ for i in range(len(z)):
         print("FLIGHT TIME: ", flight_time)
         break
 
-plt.plot(t, v, 'r-', linewidth=3)
 plt.plot(t, [0.0] * nt, 'g-', linewidth=1)
+
+plt.plot(t, v, 'r-', linewidth=2)
 plt.axis([0, flight_time + 1, -250., 500.])
 plt.grid(True)
 plt.xlabel("t")
@@ -53,7 +54,7 @@ plt.ylabel("v(t)")
 plt.savefig("v(t).pdf", dpi=300)
 plt.show()
 
-plt.plot(t, z, 'b-', linewidth=3)
+plt.plot(t, z, 'b-', linewidth=2)
 plt.axis([0, flight_time + 1., 0., 3500.])
 plt.grid(True)
 plt.xlabel("t")
