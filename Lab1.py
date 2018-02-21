@@ -29,12 +29,11 @@ def system(f, t):
 
 nt = 1000
 t = np.linspace(0., tm, nt)
+print("NODES:", len(t))
 
 sol = odeint(system, [z0, v0], t)
 res_z = sol[:, 0]
 res_v = sol[:, 1]
-
-print("NODES:", len(res_z))
 
 res_flight_time = 0
 for i in range(len(res_z)):
