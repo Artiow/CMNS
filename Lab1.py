@@ -59,13 +59,15 @@ for i in range(len(free_z)):
         print()
         print("LANDING NODE (FREE):", i)
         print("FLIGHT TIME (FREE):", free_flight_time)
-        print("MAX LIFT (RES):", max(free_z))
+        print("MAX LIFT (FREE):", max(free_z))
         break
 
 plt.figure(figsize=(10, 4))
 
 # subplot 1
 plt.subplot(121)
+plt.text(18,50,"RES",color='r',fontsize=14,rotation=-40)
+plt.text(30,210,"FREE",color='b',fontsize=14,rotation=-40)
 plt.plot(t, [0.0] * nt, 'm-', linewidth=1)
 plt.plot(t, res_v, 'r-', linewidth=2)
 plt.plot(t, free_v, 'b-', linewidth=2)
@@ -75,6 +77,8 @@ plt.xlabel("t")
 plt.ylabel("v(t)")
 # subplot 2
 plt.subplot(122)
+plt.text(14,3700,"RES",color='r',fontsize=14,rotation=10)
+plt.text(16,10250,"FREE",color='b',fontsize=14,rotation=60)
 plt.plot(t, res_z, 'r-', linewidth=2)
 plt.plot(t, free_z, 'b-', linewidth=2)
 plt.axis([0, free_flight_time + 1., 0., 13500.])
