@@ -75,6 +75,7 @@ plt.axis([0, free_flight_time + 1, -500., 500.])
 plt.grid(True)
 plt.xlabel("t")
 plt.ylabel("v(t)")
+
 # subplot 2
 plt.subplot(122)
 plt.text(14,3700,"RES",color='r',fontsize=14,rotation=10)
