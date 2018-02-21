@@ -44,20 +44,23 @@ for i in range(len(z)):
         print("FLIGHT TIME: ", flight_time)
         break
 
-plt.plot(t, [0.0] * nt, 'g-', linewidth=1)
+plt.figure(figsize=(9, 4))
 
+# subplot 1
+plt.subplot(121)
+plt.plot(t, [0.0] * nt, 'g-', linewidth=1)
 plt.plot(t, v, 'r-', linewidth=2)
 plt.axis([0, flight_time + 1, -250., 500.])
 plt.grid(True)
 plt.xlabel("t")
 plt.ylabel("v(t)")
-plt.savefig("v(t).pdf", dpi=300)
-plt.show()
-
+# subplot 2
+plt.subplot(122)
 plt.plot(t, z, 'b-', linewidth=2)
 plt.axis([0, flight_time + 1., 0., 3500.])
 plt.grid(True)
 plt.xlabel("t")
 plt.ylabel("z(t)")
-plt.savefig("z(t).pdf", dpi=300)
+
+plt.savefig("graphics.pdf", dpi=300)
 plt.show()
