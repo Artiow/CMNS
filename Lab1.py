@@ -31,33 +31,53 @@ nt = 1000
 t = np.linspace(0., tm, nt)
 
 sol = odeint(system, [z0, v0], t)
-z = sol[:, 0]
-v = sol[:, 1]
+res_z = sol[:, 0]
+res_v = sol[:, 1]
 
-print("NODES:", len(z))
+print("NODES:", len(res_z))
 
-flight_time = 0
-for i in range(len(z)):
-    if z[i] < 0.0:
-        flight_time = (t[i] + t[i - 1]) / 2.0
-        print("LANDING NODE:", i)
-        print("FLIGHT TIME: ", flight_time)
+res_flight_time = 0
+for i in range(len(res_z)):
+    if res_z[i] < 0.0:
+        res_flight_time = (t[i] + t[i - 1]) / 2.0
+        print()
+        print("LANDING NODE (RES):", i)
+        print("FLIGHT TIME (RES):", res_flight_time)
+        print("MAX LIFT (RES):", max(res_z))
         break
 
-plt.figure(figsize=(9, 4))
+free_z = np.linspace(0.,0.,nt)
+free_v = np.linspace(0.,0.,nt)
+for i in range(len(t)):
+    free_z[i] = z0 + (v0 * t[i]) - (g * t[i] * t[i] / 2)
+    free_v[i] = v0 - (g * t[i])
+
+free_flight_time = 0
+for i in range(len(free_z)):
+    if free_z[i] < 0.0:
+        free_flight_time = (t[i] + t[i - 1]) / 2.0
+        print()
+        print("LANDING NODE (FREE):", i)
+        print("FLIGHT TIME (FREE):", free_flight_time)
+        print("MAX LIFT (RES):", max(free_z))
+        break
+
+plt.figure(figsize=(10, 4))
 
 # subplot 1
 plt.subplot(121)
-plt.plot(t, [0.0] * nt, 'g-', linewidth=1)
-plt.plot(t, v, 'r-', linewidth=2)
-plt.axis([0, flight_time + 1, -250., 500.])
+plt.plot(t, [0.0] * nt, 'm-', linewidth=1)
+plt.plot(t, res_v, 'r-', linewidth=2)
+plt.plot(t, free_v, 'b-', linewidth=2)
+plt.axis([0, free_flight_time + 1, -500., 500.])
 plt.grid(True)
 plt.xlabel("t")
 plt.ylabel("v(t)")
 # subplot 2
 plt.subplot(122)
-plt.plot(t, z, 'b-', linewidth=2)
-plt.axis([0, flight_time + 1., 0., 3500.])
+plt.plot(t, res_z, 'r-', linewidth=2)
+plt.plot(t, free_z, 'b-', linewidth=2)
+plt.axis([0, free_flight_time + 1., 0., 13500.])
 plt.grid(True)
 plt.xlabel("t")
 plt.ylabel("z(t)")
