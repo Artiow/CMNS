@@ -12,7 +12,7 @@ z0 = 0.0  # m
 y0 = 0.0  # m
 
 v0 = 500.0  # m/sec
-alpha = pi / 4  # rad
+alpha = 5 * (pi / 11)  # rad
 
 m = 0.009  # kg
 g = 9.8  # m/sec^2
@@ -48,7 +48,7 @@ def vertical_system(f, t):
     return [dzdt, dvdt]
 
 
-nt = 5000
+nt = 1000
 t = np.linspace(0., tm, nt)
 
 print("NODES:", len(t))
@@ -68,11 +68,21 @@ flight_time = 0
 for i in range(len(z)):
     if z[i] < 0.0:
         flight_time = (t[i] + t[i - 1]) / 2.0
+        flight_range = (y[i] + y[i - 1]) / 2.0
         print()
-        print("LANDING NODE (RES):", i)
-        print("FLIGHT TIME (RES):", flight_time)
-        print("MAX LIFT (RES):", max(z))
+        print("LANDING NODE:", i)
+        print("FLIGHT TIME:", flight_time)
+        print("FLIGHT RANGE:", flight_range)
+        print("MAX LIFT:", max(z))
         break
 
-# plt.savefig("Lab2Graph.pdf", dpi=300)
-# plt.show()
+plt.figure(figsize=(6, 6))
+
+plt.plot(y, z, 'b-', linewidth=2)
+plt.axis([0., 3500., 0., 3500.])
+plt.xlabel("Y-AXIS")
+plt.ylabel("Z-AXIS")
+plt.grid(True)
+
+plt.savefig("Lab2Graph.pdf", dpi=300)
+plt.show()
