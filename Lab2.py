@@ -4,11 +4,15 @@ dv(t)/dt = -g - (A*v(t) + B*v(t)^3)/m
 """
 
 import numpy as np
+from numpy import pi
 import matplotlib.pyplot as plt
 from scipy.integrate import odeint
 
 z0 = 0.0  # m
+y0 = 0.0  # m
+
 v0 = 500.0  # m/sec
+alpha = pi / 4  # rad
 
 m = 0.009  # kg
 g = 9.8  # m/sec^2
@@ -29,7 +33,11 @@ def system(f, t):
 
 nt = 1000
 t = np.linspace(0., tm, nt)
+
 print("NODES:", len(t))
+
+print()
+print("ALPHA:", alpha)
 
 sol = odeint(system, [z0, v0], t)
 res_z = sol[:, 0]
@@ -86,5 +94,5 @@ plt.grid(True)
 plt.xlabel("t")
 plt.ylabel("z(t)")
 
-plt.savefig("Lab1Graph.pdf", dpi=300)
+plt.savefig("Lab2Graph.pdf", dpi=300)
 plt.show()
