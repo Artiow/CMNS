@@ -64,5 +64,15 @@ vertical_sol = odeint(vertical_system, [z0, vertical_v0], t)
 z = vertical_sol[:, 0]
 zv = vertical_sol[:, 1]
 
+flight_time = 0
+for i in range(len(z)):
+    if z[i] < 0.0:
+        flight_time = (t[i] + t[i - 1]) / 2.0
+        print()
+        print("LANDING NODE (RES):", i)
+        print("FLIGHT TIME (RES):", flight_time)
+        print("MAX LIFT (RES):", max(z))
+        break
+
 # plt.savefig("Lab2Graph.pdf", dpi=300)
 # plt.show()
