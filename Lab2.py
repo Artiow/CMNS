@@ -17,16 +17,23 @@ alpha = 5 * (pi / 11)  # rad
 m = 0.009  # kg
 g = 9.8  # m/sec^2
 
+w = -10  # m/sec
 A = 1.e-5  # N*sec/m
 B = 1.e-8  # N*sec^3/m^3
+
 tm = 110.0  # sec
 
 vertical_v0 = v0 * np.sin(alpha)
 horizontal_v0 = v0 * np.cos(alpha)
 
 
-def windage(v):
-    global m, A, B
+def horizontal_windage(v):
+    global w, m, A, B
+    return (A * v + B * (v - w) ** 3) / m
+
+
+def vertical_windage(v):
+    global w, m, A, B
     return (A * v + B * v ** 3) / m
 
 
@@ -35,7 +42,7 @@ def horizontal_system(f, t):
     y = f[0]
     v = f[1]
     dydt = v
-    dvdt = -windage(v)
+    dvdt = -horizontal_windage(v)
     return [dydt, dvdt]
 
 
@@ -44,7 +51,7 @@ def vertical_system(f, t):
     z = f[0]
     v = f[1]
     dzdt = v
-    dvdt = -g - windage(v)
+    dvdt = -g - vertical_windage(v)
     return [dzdt, dvdt]
 
 
