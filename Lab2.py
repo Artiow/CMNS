@@ -57,11 +57,7 @@ def vertical_system(f, t):
 
 nt = 1000
 t = np.linspace(0., tm, nt)
-
 print("NODES:", len(t))
-
-print()
-print("ALPHA:", alpha)
 
 horizontal_sol = odeint(horizontal_system, [y0, horizontal_v0], t)
 y = horizontal_sol[:, 0]
@@ -72,23 +68,51 @@ z = vertical_sol[:, 0]
 zv = vertical_sol[:, 1]
 
 flight_time = 0
+flight_range = 0
+landing_node = 0
+max_lift = max(z)
 for i in range(len(z)):
     if z[i] < 0.0:
-        flight_time = (t[i] + t[i - 1]) / 2.0
-        flight_range = (y[i] + y[i - 1]) / 2.0
-        print()
-        print("LANDING NODE:", i)
-        print("FLIGHT TIME:", flight_time)
-        print("FLIGHT RANGE:", flight_range)
-        print("MAX LIFT:", max(z))
+        landing_node = i
+        flight_time = (t[landing_node] + t[landing_node - 1]) / 2.0
+        flight_range = (y[landing_node] + y[landing_node - 1]) / 2.0
         break
 
 plt.figure(figsize=(6, 6))
+
+# subplot 1
+plt.subplot(221)
+
+pos = 3000
+delta_pos = -425
+plt.text(4500, pos, "BOOM ANGLE: " + str(round(((alpha * 180) / pi), 2)) + " DEG")
+pos = pos + (2 * delta_pos)
+plt.text(4500, pos, "LANDING NODE: " + str(landing_node))
+pos = pos + delta_pos
+plt.text(4500, pos, "MAX LIFT: " + str(round(max_lift, 2)))
+pos = pos + delta_pos
+plt.text(4500, pos, "FLIGHT TIME: " + str(round(flight_time, 2)))
+pos = pos + delta_pos
+plt.text(4500, pos, "FLIGHT RANGE: " + str(round(flight_range, 2)))
 
 plt.plot(y, z, 'b-', linewidth=2)
 plt.axis([0., 3500., 0., 3500.])
 plt.xlabel("Y-AXIS")
 plt.ylabel("Z-AXIS")
+plt.grid(True)
+
+# subplot 3
+plt.subplot(223)
+plt.plot(t, yv, 'r-', linewidth=2)
+plt.xlabel("t")
+plt.ylabel("Vy(t)")
+plt.grid(True)
+
+# subplot 4
+plt.subplot(224)
+plt.plot(t, zv, 'r-', linewidth=2)
+plt.xlabel("t")
+plt.ylabel("Vz(t)")
 plt.grid(True)
 
 plt.savefig("Lab2Graph.pdf", dpi=300)
